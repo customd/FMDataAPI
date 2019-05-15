@@ -1646,6 +1646,7 @@ class CommunicationProvider
         }
         if ($this->throwExceptionInError) {
 			$description = '';
+			$errorCode = 0;
 			if ($this->curlErrorNumber > 0) {
 				$description .= "cURL in PHP / Error Code: {$this->curlErrorNumber}, Error Message: {$this->curlError}. ";
             } else {
