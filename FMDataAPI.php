@@ -1645,15 +1645,17 @@ class CommunicationProvider
             $this->debugOutput();
         }
         if ($this->throwExceptionInError) {
-            $httpStatus = $this->getCurlInfo("http_code");
-            $errorCode  = property_exists($this->responseBody->messages[0], 'code') ?
-            intval($this->responseBody->messages[0]->code) : -1;
-            $errorMessage = property_exists($this->responseBody->messages[0], 'message') ?
-            $this->responseBody->messages[0]->message : 'ERROR';
-            $description = '';
-            if ($this->curlErrorNumber > 0) {
-                $description .= "cURL in PHP / Error Code: {$this->curlErrorNumber}, Error Message: {$this->curlError}. ";
+			$description = '';
+			if ($this->curlErrorNumber > 0) {
+				$description .= "cURL in PHP / Error Code: {$this->curlErrorNumber}, Error Message: {$this->curlError}. ";
             } else {
+				$httpStatus = $this->getCurlInfo("http_code");
+				if(property_exists($this->responseBody, 'messages'))
+				$errorCode  = property_exists($this->responseBody->messages[0], 'code') ?
+				intval($this->responseBody->messages[0]->code) : -1;
+				$errorMessage = property_exists($this->responseBody->messages[0], 'message') ?
+				$this->responseBody->messages[0]->message : 'ERROR';
+            
                 if ($httpStatus !== 200) {
                     $description .= "HTTP Status Code: {$httpStatus}. ";
                 }
